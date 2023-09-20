@@ -1,8 +1,10 @@
 import logging
 from aiogram import Bot, Dispatcher
 
+from core.config import settings
+
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token="6349288423:AAF2LZZ5DoPx60alRlKcaWbq_SKD1Q-TnyA")
+bot = Bot(token=settings.token)
 dp = Dispatcher()
 
 

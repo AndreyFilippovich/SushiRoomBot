@@ -1,0 +1,1 @@
+from app.states.registration_state import registration # noqa

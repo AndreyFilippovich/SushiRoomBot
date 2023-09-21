@@ -6,6 +6,7 @@ from datetime import datetime
 
 from app.bot import dp
 from app.states import registration
+from app.utils import user_processing
 
 
 @dp.message(Command("start"))
@@ -55,6 +56,13 @@ async def handle_date(message: types.Message, state: FSMContext):
         await message.answer(f"Имя - {user_data['name']}\n"
                              f"Дата Рождения - {user_data['date']}\n"
                              f"Телефон - {user_data['phone']}\n")
+        data = {
+            "name": user_data['name'],
+            "tg_id": message.from_user.id,
+            "phone_number": user_data['phone'],
+            "birth_day": user_data['date']
+        }
+        await user_processing.post_user(data)
         await state.clear()
     except:
         await message.answer(f"Введена некоректная дата, повторите попытку")

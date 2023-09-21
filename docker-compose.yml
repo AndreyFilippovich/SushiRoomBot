@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+    db:
+        image: postgres:12-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=SushiRoom
+            - POSTGRES_PASSWORD=SushiRoom
+            - POSTGRES_DB=SushiRoomDB
+        expose:
+            - "5432"
+        ports:
+            - "5432:5432"
+        env_file:
+            - database\.env
+
+volumes:
+    postgres_data:

@@ -3,26 +3,17 @@ from aiogram import types, F
 from app.bot import dp
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from app.constants.messages import *
 
-@dp.message(Command("sales"))
+from app.constants import callback_data
+@dp.message(Command(callback_data.SALES))
 async def sales_func(message: types.Message):
-    await message.answer("<b>Регулярные акции</b>\n"
-                         "15% в день рождения (действует на сайте и на кассах)\n"
-                         "10% на самовывоз (действует только на сайте)\n\n"
-                         "<b>Акции в точках</b>:\n\n"
-                         "<b>Ред сейл</b>:\n"
-                         "-20% на горячее с 12:00 до 16:00 (бессрочная)\n"
-                         "-25% на витрину с 20:00\n\n"
-                         "<b>Капитанская 10</b>:\n"
-                         "морс 1+1 за 129₽ (1-31/05)\n"
-                         "-25% на витрину с 20:00\n\n"
-                         "<b>Планета</b>:\n"
-                         "-25% на витрину с 21:00",
+    await message.answer(SALE_BUTTON,
                          parse_mode="HTML"
                          )
     
 
-@dp.message(Command("delivery"))
+@dp.message(Command(callback_data.DELIVERY))
 async def delivery_func(message: types.Message):
     builder = InlineKeyboardBuilder()
     builder.add(types.InlineKeyboardButton(
@@ -35,13 +26,13 @@ async def delivery_func(message: types.Message):
     )
 
 
-@dp.message(Command("bonuses"))
+@dp.message(Command(callback_data.BONUSES))
 async def bonuses_func(message: types.Message):
     await message.answer(
         "Какой-то текст про бонусы",
     )
 
-@dp.message(Command("restaurants"))
+@dp.message(Command(callback_data.RESTAURANTS))
 async def restaurants_func(message: types.Message):
     await message.answer(
         "Наши рестораны:\n\n"
@@ -52,7 +43,7 @@ async def restaurants_func(message: types.Message):
     )
 
 
-@dp.message(Command("contacts"))
+@dp.message(Command(callback_data.CONTACTS))
 async def contacts_func(message: types.Message):
     await message.answer(
         "<b>SushiRoom</b>\n\n"
@@ -65,7 +56,7 @@ async def contacts_func(message: types.Message):
     )
 
 
-@dp.message(Command("questions"))
+@dp.message(Command(callback_data.QUESTIONS))
 async def questions_func(message: types.Message):
     builder = InlineKeyboardBuilder()
     builder.add(types.InlineKeyboardButton(

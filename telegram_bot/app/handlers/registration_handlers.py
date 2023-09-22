@@ -11,7 +11,7 @@ from app.constants.messages import (START_MESSAGE, SEND_YOUR_NAME,
                                     SHARE_YOUR_PHONE, SEND_YOUR_BIRTDATE,
                                     WRONG_BIRTHDATE)
 
-from app.handlers.main_keyboard_handkers import main_menu
+from app.utils import user_processing
 
 
 
@@ -65,7 +65,13 @@ async def handle_date(message: types.Message, state: FSMContext):
                              f"Телефон - {user_data['phone']}\n",
                              reply_markup=builder.as_markup()
                              )
-        print('dgfd')
+        data = {
+            "name": user_data['name'],
+            "tg_id": message.from_user.id,
+            "phone_number": user_data['phone'],
+            "birth_day": user_data['date']
+        }
+        await user_processing.post_user(data)
         await state.clear()
     except:
         await message.answer(WRONG_BIRTHDATE)

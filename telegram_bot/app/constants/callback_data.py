@@ -7,6 +7,4 @@ RESTAURANTS = 'restaurants'
 CONTACTS = 'contacts'
 QUESTIONS = 'questions'
 
-
-
 '''Команды'''

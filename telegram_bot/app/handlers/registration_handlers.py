@@ -6,8 +6,7 @@ from datetime import datetime
 from app.bot import dp
 from app.states import registration
 from app.utils import user_processing
-
-from app.handlers.menu_handlers import *
+from app.constants import messages
 
 
 @dp.message(Command("start"))
@@ -21,20 +20,20 @@ async def cmd_start(message: types.Message, state: FSMContext):
         keyboard=button_phone,
         resize_keyboard=True
     )
-    await message.answer(START_MESSAGE, parse_mode="HTML", reply_markup=keyboard)
+    await message.answer(messages.START_MESSAGE, parse_mode="HTML", reply_markup=keyboard)
     await state.set_state(registration.phone)
 
 
 @dp.message(registration.phone, F.contact)
 async def handle_contact(message: types.Message, state: FSMContext):
     await state.update_data(phone=message.contact.phone_number)
-    await message.answer(SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
+    await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
     await state.set_state(registration.name)
 
 
 @dp.message(registration.phone)
 async def handle_contact_error(message: types.Message, state: FSMContext):
-    await message.answer(SHARE_YOUR_PHONE)
+    await message.answer(messages.SHARE_YOUR_PHONE)
     await state.set_state(registration.phone)
 
 
@@ -53,14 +52,14 @@ async def handle_name(message: types.Message, state: FSMContext):
 
 @dp.callback_query(F.data == "again_name")
 async def again_name(callback: types.CallbackQuery, state: FSMContext):
-    await callback.message.answer(SEND_YOUR_NAME_AGAIN)
+    await callback.message.answer(messages.SEND_YOUR_NAME_AGAIN)
     await state.set_state(registration.name)
 
 
 @dp.callback_query(F.data == "accept_name")
 async def handle_name(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(name=callback.message.text.split(' ')[-1])
-    await callback.message.answer(SEND_YOUR_BIRTDATE)
+    await callback.message.answer(messages.SEND_YOUR_BIRTDATE)
     await state.set_state(registration.date)
 
 
@@ -89,4 +88,4 @@ async def handle_date(message: types.Message, state: FSMContext):
         await user_processing.post_user(data)
         await state.clear()
     except:
-        await message.answer(WRONG_BIRTHDATE)
+        await message.answer(messages.WRONG_BIRTHDATE)

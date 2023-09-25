@@ -29,6 +29,10 @@ class HttpClient:
         """Отправляет POST-запрос."""
         return await self._request("post", url, data, acceptable_statuses=acceptable_statuses)
     
+    async def get(self, url, acceptable_statuses=(200, 204)):
+        """Отправляет GET-запрос."""
+        return await self._request("get", url, acceptable_statuses=acceptable_statuses)
+    
     async def close(self):
         """Закрывает сессию клиента."""
         await self.session.close()

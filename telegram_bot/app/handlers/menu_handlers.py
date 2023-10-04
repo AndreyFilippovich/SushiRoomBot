@@ -1,12 +1,10 @@
 from aiogram.filters.command import Command
-from aiogram import types, F
-from app.bot import dp
-
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram import types, F
 
-from app.constants import messages
-
-from app.constants import callback_data
+from app.bot import dp
+from app.constants import messages, callback_data
+from app.utils import promotion_processing
 
 
 @dp.callback_query(F.data == "accept")
@@ -51,7 +49,8 @@ async def main_menu(message: types.Message):
 
 @dp.callback_query(F.data == callback_data.SALES)
 async def sales_func(callback: types.CallbackQuery):
-    await callback.message.answer(messages.SALE_BUTTON, parse_mode="HTML")
+    promotions = await promotion_processing.get_promotions()
+    await callback.message.answer(promotions, parse_mode="HTML")
 
     
 @dp.callback_query(F.data == callback_data.DELIVERY)

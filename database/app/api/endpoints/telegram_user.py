@@ -6,7 +6,7 @@ from app.core.db import get_async_session
 from app.crud.telegram_user import create_telegram_user
 from app.schemas.telegram_user import TelegramUserCreate
 
-router = APIRouter(prefix='/telegram_users')
+router = APIRouter()
 
 
 @router.post(

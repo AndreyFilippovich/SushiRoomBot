@@ -26,9 +26,16 @@ async def cmd_start(message: types.Message, state: FSMContext):
 
 @dp.message(registration.phone, F.contact)
 async def handle_contact(message: types.Message, state: FSMContext):
-    await state.update_data(phone=message.contact.phone_number)
+    phone_number = await prepare_phone(message.contact.phone_number)
+    await state.update_data(phone=phone_number)
     await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
     await state.set_state(registration.name)
+
+
+async def prepare_phone(phone_number):
+    if not str(phone_number).startswith('+'):
+        phone_number = "+"+phone_number
+    return phone_number
 
 
 @dp.message(registration.phone)

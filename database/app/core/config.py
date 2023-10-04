@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     DATABASE_URL: str
     API_URL: str
+    SECRET: str = 'secret'
+    admin_username: str = 'admin'
+    admin_password: str = 'admin'
 
     class Config:
         env_file = '.env'

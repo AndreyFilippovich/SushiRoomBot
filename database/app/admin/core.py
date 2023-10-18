@@ -5,10 +5,10 @@ from starlette_admin.contrib.sqla import Admin
 from starlette_admin.i18n import SUPPORTED_LOCALES
 
 from app.admin.providers import MyAuthProvider
-from app.admin.views import TGUserView, PromotionView
+from app.admin.views import TGUserView, PromotionView, SalesView
 from app.core.config import settings
 from app.core.db import engine
-from app.models import telegram_user, promotions
+from app.models import telegram_user, promotions, sales
 
 
 async def configure_admin():
@@ -33,6 +33,14 @@ async def configure_admin():
     admin.add_view(
         PromotionView(
             promotions.Promotion, icon='fa fa-tag', label='Акции',
+        )
+    )
+
+############################################################
+
+    admin.add_view(
+        SalesView(
+            sales.Sale, icon='fa fa-tag', label='Промоакции',
         )
     )
     return admin

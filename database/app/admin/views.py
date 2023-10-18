@@ -14,3 +14,8 @@ class PromotionView(ModelView):
     fields = [
         "text",
     ]
+
+class SalesView(ModelView):
+    fields = [
+        "text",
+    ]

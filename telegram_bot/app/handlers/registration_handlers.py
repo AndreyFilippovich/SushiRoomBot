@@ -86,13 +86,13 @@ async def handle_date(message: types.Message, state: FSMContext):
                              f"Дата Рождения - {user_data['date']}\n"
                              f"Телефон - {user_data['phone']}\n",
                              reply_markup=keyboard)
-        data = {
+        await state.clear()
+    except:
+        await message.answer(messages.WRONG_BIRTHDATE)
+    data = {
             "name": user_data['name'],
             "tg_id": message.from_user.id,
             "phone_number": user_data['phone'],
             "birth_day": user_data['date']
         }
-        await user_processing.post_user(data)
-        await state.clear()
-    except:
-        await message.answer(messages.WRONG_BIRTHDATE)
+    await user_processing.post_user(data)

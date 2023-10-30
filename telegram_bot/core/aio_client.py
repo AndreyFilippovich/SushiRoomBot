@@ -11,10 +11,10 @@ class HttpClient:
         """Инициализирует клиента."""
         self.session = ClientSession()
 
-    async def _request(self, method, url, data=None, acceptable_statuses=(200,)):
+    async def _request(self, method, url, data=None, headers=None, acceptable_statuses=(200,)):
         """Отправляет запрос к API."""
         try:
-            async with getattr(self.session, method)(url=url, json=data) as response:
+            async with getattr(self.session, method)(url=url, json=data, headers=headers) as response:
                 if response.status not in acceptable_statuses:
                     error_message = f"{method.upper()} request to {url=}, {data=} failed " f"with {response.status=}"
                     logger.error(error_message)
@@ -25,9 +25,9 @@ class HttpClient:
             logger.error(error_message)
             raise ApiClientException(error_message)
 
-    async def post(self, url, data, acceptable_statuses=(200, 201, 204)):
+    async def post(self, url, data, headers=None, acceptable_statuses=(200, 201, 204)):
         """Отправляет POST-запрос."""
-        return await self._request("post", url, data, acceptable_statuses=acceptable_statuses)
+        return await self._request("post", url, data, headers, acceptable_statuses=acceptable_statuses)
     
     async def get(self, url, acceptable_statuses=(200,)):
         """Отправляет GET-запрос."""

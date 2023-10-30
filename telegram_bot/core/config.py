@@ -30,6 +30,9 @@ class Settings(BaseSettings):
 
     assemble_api_url = validator("api_url", pre=True, allow_reuse=True)(assemble_api_url("database"))
 
+    iiko_api_key: str
+    organizationId: str
+
     class Config:
 
         env_file = ".env"

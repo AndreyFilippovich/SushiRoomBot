@@ -45,7 +45,6 @@ async def handle_contact(message: types.Message, state: FSMContext):
         keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
         await message.answer(f"Нашел тебя в iiko, {user_info['name']}",
                              reply_markup=keyboard)
-        await state.clear()
     else:
         await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
         await state.set_state(registration.name)
@@ -105,7 +104,7 @@ async def handle_date(message: types.Message, state: FSMContext):
                              f"Дата Рождения - {user_data['date']}\n"
                              f"Телефон - {user_data['phone']}\n",
                              reply_markup=keyboard)
-        await state.clear()
+        await state.set_state(registration.menu)
     except:
         await message.answer(messages.WRONG_BIRTHDATE)
     data = {

@@ -5,3 +5,4 @@ class registration(StatesGroup):
     phone = State()
     name = State()
     date = State()
+    menu = State()

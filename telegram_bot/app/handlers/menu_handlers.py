@@ -1,14 +1,17 @@
 from aiogram.filters.command import Command
+from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram import types, F
 
 from app.bot import dp
 from app.constants import messages, callback_data
 from app.utils import promotion_processing
+from app.states import registration
+from app.utils import user_processing
 
 
 @dp.callback_query(F.data == "accept")
-async def accept_main_menu(callback: types.CallbackQuery):
+async def accept_main_menu(callback: types.CallbackQuery, state: FSMContext):
     buttons = [
         [
             types.KeyboardButton(text="Меню", callback_data="menu"),
@@ -19,10 +22,11 @@ async def accept_main_menu(callback: types.CallbackQuery):
         resize_keyboard=True
     )
     await callback.message.answer('Теперь у вас есть меню через которое вы сможете посмотреть то-то то-то', reply_markup=keyboard)
+    await state.set_state(registration.menu)
 
 
-@dp.message(F.text == "Меню")
-async def main_menu(message: types.Message):
+@dp.message(registration.menu, F.text == "Меню")
+async def main_menu(message: types.Message, state: FSMContext):
     buttons = [
             [
                 types.InlineKeyboardButton(text="Акции", callback_data=callback_data.SALES),
@@ -66,10 +70,13 @@ async def delivery_func(callback: types.CallbackQuery):
     )
 
 
-@dp.callback_query(F.data == callback_data.BONUSES)
-async def bonuses_func(callback: types.CallbackQuery):
+@dp.callback_query(registration.menu, F.data == callback_data.BONUSES)
+async def bonuses_func(callback: types.CallbackQuery, state: FSMContext):
+    user_data = await state.get_data()
+    user_phone = user_data['phone']
+    user_info = await user_processing.get_iiko_user(user_phone)
     await callback.message.answer(
-        messages.BONUSES_BUTTON,
+        f"У вас {int(user_info['walletBalances'][0]['balance'])} бонусов"
     )
 
 

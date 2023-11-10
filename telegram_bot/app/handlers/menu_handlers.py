@@ -21,7 +21,7 @@ async def accept_main_menu(callback: types.CallbackQuery, state: FSMContext):
         keyboard=buttons,
         resize_keyboard=True
     )
-    await callback.message.answer('Теперь у вас есть меню через которое вы сможете посмотреть то-то то-то', reply_markup=keyboard)
+    await callback.message.answer(messages.MENU_MESSAGE, reply_markup=keyboard)
     await state.set_state(registration.menu)
 
 

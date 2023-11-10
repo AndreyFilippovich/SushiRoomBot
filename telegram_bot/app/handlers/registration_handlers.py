@@ -28,24 +28,28 @@ async def cmd_start(message: types.Message, state: FSMContext):
 async def handle_contact(message: types.Message, state: FSMContext):
     phone_number = await prepare_phone(message.contact.phone_number)
     await state.update_data(phone=phone_number)
-    user_info = await user_processing.get_iiko_user(phone_number)
-    if user_info["id"]:
-        data = {
-            "name": user_info['name'],
-            "tg_id": message.from_user.id,
-            "phone_number": phone_number,
-            "birth_day": user_info['birthday']
-        }
-        await user_processing.post_user(data)
-        buttons = [
-            [
-                types.InlineKeyboardButton(text="Продолжить", callback_data="accept"),
-            ],
-        ]
-        keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
-        await message.answer(f"Нашел тебя в iiko, {user_info['name']}",
-                             reply_markup=keyboard)
-    else:
+    try:
+        user_info = await user_processing.get_iiko_user(phone_number)
+        if user_info["id"]:
+            data = {
+                "name": user_info['name'],
+                "tg_id": message.from_user.id,
+                "phone_number": phone_number,
+                "birth_day": user_info['birthday']
+            }
+            await user_processing.post_user(data)
+            buttons = [
+                [
+                    types.InlineKeyboardButton(text="Продолжить", callback_data="accept"),
+                ],
+            ]
+            keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
+            await message.answer(f"Нашёл Вас в базе, {user_info['name']}",
+                                 reply_markup=keyboard)
+        else:
+            await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
+            await state.set_state(registration.name)
+    except:
         await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
         await state.set_state(registration.name)
 
@@ -113,4 +117,5 @@ async def handle_date(message: types.Message, state: FSMContext):
             "phone_number": user_data['phone'],
             "birth_day": user_data['date']
         }
+    await user_processing.create_iiko_user(user_data['name'], user_data['phone'], user_data['date'])
     await user_processing.post_user(data)

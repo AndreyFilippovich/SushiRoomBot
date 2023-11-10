@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     SECRET: str = 'secret'
     admin_username: str = 'admin'
     admin_password: str = 'admin'
+    TOKEN: str
 
     class Config:
         env_file = '.env'

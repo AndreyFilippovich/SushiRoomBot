@@ -17,3 +17,10 @@ async def create_telegram_user(
     await session.commit()
     await session.refresh(db_discord_user)
     return db_discord_user
+
+
+async def get_all_users_ids(
+        session: AsyncSession,
+    ):
+    tg_users_ids = await session.execute(select(TelegramUser.tg_id))
+    return tg_users_ids.scalars().all()

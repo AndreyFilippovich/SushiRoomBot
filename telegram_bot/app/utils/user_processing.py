@@ -42,7 +42,7 @@ async def create_iiko_user(name, phone_number, birth_day):
     token = await get_iiko_token()
     birth_day = birth_day.split(".")
     data = {
-        "id": "null",
+        "id": "",
         "phone": phone_number,
         "cardTrack": "",
         "cardNumber": "",
@@ -53,8 +53,8 @@ async def create_iiko_user(name, phone_number, birth_day):
         "email": "",
         "sex": 0,
         "consentStatus": 0,
-        "shouldReceivePromoActionsInfo": False,
-        "referrerId": "null",
+        "shouldReceivePromoActionsInfo": True,
+        "referrerId": None,
         "userData": "",
         "organizationId": settings.organizationId
     }

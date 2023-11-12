@@ -111,11 +111,12 @@ async def handle_date(message: types.Message, state: FSMContext):
         await state.set_state(registration.menu)
     except:
         await message.answer(messages.WRONG_BIRTHDATE)
+    birth_day = user_data['date'].split(".")
     data = {
             "name": user_data['name'],
             "tg_id": message.from_user.id,
             "phone_number": user_data['phone'],
-            "birth_day": user_data['date']
+            "birth_day": f"{birth_day[2]}-{birth_day[1]}-{birth_day[0]} 12:00:00.000"
         }
     await user_processing.create_iiko_user(user_data['name'], user_data['phone'], user_data['date'])
     await user_processing.post_user(data)

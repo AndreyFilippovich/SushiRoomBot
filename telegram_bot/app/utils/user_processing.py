@@ -10,6 +10,13 @@ async def post_user(data):
         await client.post(f"{settings.api_url}telegram_users/", data)
 
 
+async def get_users():
+    """Функция получает всех пользователей из БД."""
+    async with HttpClient() as client:
+        users = await client.get(f"{settings.api_url}telegram_users/")
+        return users
+
+
 async def get_iiko_token():
     """Функция получает токен для авторизациии в iiko."""
     data = {"apiLogin": settings.iiko_api_key}

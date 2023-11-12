@@ -19,6 +19,13 @@ async def create_telegram_user(
     return db_discord_user
 
 
+async def get_all_users(
+        session: AsyncSession,
+    ) -> TelegramUser:
+    db_objs = await session.scalars(select(TelegramUser))
+    return db_objs.all()
+
+
 async def get_all_users_ids(
         session: AsyncSession,
     ):

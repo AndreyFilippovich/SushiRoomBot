@@ -1,12 +1,11 @@
 FROM python:3.11-slim
 
-RUN mkdir /bot
-
 WORKDIR /bot
-COPY requirements.txt /bot
-RUN pip install --upgrade pip
-RUN pip install -r /bot/requirements.txt --no-cache-dir
 
-COPY . .
+COPY ./requirements.txt /bot/requirements.txt
 
-CMD [ "python", "main.py" ]
+RUN pip install --no-cache-dir --upgrade -r /bot/requirements.txt
+
+COPY . /bot/telegram_bot
+
+CMD [ "python", "telegram_bot/main.py" ]

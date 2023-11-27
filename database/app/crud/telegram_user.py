@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,6 +18,18 @@ async def create_telegram_user(
     await session.commit()
     await session.refresh(db_discord_user)
     return db_discord_user
+
+
+async def get_telegram_user_by_id(
+        telegram_id: int,
+        session: AsyncSession,
+    ) -> Optional[TelegramUser]:
+        db_telegram_user = await session.execute(
+            select(TelegramUser).where(
+                TelegramUser.tg_id == telegram_id
+            )
+        )
+        return db_telegram_user.scalars().first()
 
 
 async def get_all_users(

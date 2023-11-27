@@ -1,12 +1,17 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 RUN mkdir /app
 
 WORKDIR /app
+
 COPY requirements.txt /app
-RUN pip install --upgrade pip
-RUN pip install -r /app/requirements.txt --no-cache-dir
+
+RUN pip3 install -r /app/requirements.txt --no-cache-dir
 
 COPY . .
 
-CMD [ "uvicorn", "app.main:app" ]
+RUN apt-get update
+RUN apt-get install postgresql-client -y
+
+RUN chmod +x docker-entrypoint.sh
+ENTRYPOINT [ "/app/docker-entrypoint.sh" ]

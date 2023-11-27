@@ -7,13 +7,13 @@ from core.config import settings
 async def post_user(data):
     """Функция создает нового пользователя в БД."""
     async with HttpClient() as client:
-        await client.post(f"{settings.api_url}telegram_users/", data)
+        await client.post(f"http://backend:8000/telegram_users/", data)
 
 
 async def get_users():
     """Функция получает всех пользователей из БД."""
     async with HttpClient() as client:
-        users = await client.get(f"{settings.api_url}telegram_users/")
+        users = await client.get(f"http://backend:8000/telegram_users/")
         return users
 
 

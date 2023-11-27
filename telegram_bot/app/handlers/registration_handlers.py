@@ -47,10 +47,10 @@ async def handle_contact(message: types.Message, state: FSMContext):
             await message.answer(f"Нашёл Вас в базе, {user_info['name']}",
                                  reply_markup=keyboard)
         else:
-            await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
+            await message.answer(messages.SEND_YOUR_NAME, parse_mode="HTML", reply_markup=types.ReplyKeyboardRemove())
             await state.set_state(registration.name)
     except:
-        await message.answer(messages.SEND_YOUR_NAME, reply_markup=types.ReplyKeyboardRemove())
+        await message.answer(messages.SEND_YOUR_NAME, parse_mode="HTML", reply_markup=types.ReplyKeyboardRemove())
         await state.set_state(registration.name)
 
 

@@ -35,7 +35,7 @@ async def main_menu(message: types.Message, state: FSMContext):
                 types.InlineKeyboardButton(text="Заказать доставку", callback_data=callback_data.DELIVERY),
             ],
             [
-                types.InlineKeyboardButton(text="Ваши бонусы", callback_data=callback_data.BONUSES),
+                types.InlineKeyboardButton(text="Ваши бонусы", url="https://sushiroom24.ru/login?from=%2Fpersonal%2Fprofile"),
             ],
             [
                 types.InlineKeyboardButton(text="Наши рестораны", callback_data=callback_data.RESTAURANTS),
@@ -101,7 +101,7 @@ async def questions_func(callback: types.CallbackQuery):
     builder = InlineKeyboardBuilder()
     builder.add(types.InlineKeyboardButton(
         text="В диалог со службой поддержки",
-        url="https://t.me/filippovich_andreyi")
+        url="https://t.me/ilya_mamontov")
     )
     await callback.message.answer(
         messages.QUESTIONS_BUTTON,
